@@ -1,0 +1,72 @@
+#myVideo {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+body {
+  background-color: black;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  padding: 10px;
+}
+
+a:hover {
+  font-weight: bold;
+  text-decoration: underline;
+  color: yellow;
+  
+}
+
+.overlay{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  bottom: 0;
+  left: 0;
+}
+.inner{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+.heading{
+  color: white;
+  font-family:'Times New Roman', Times, serif;
+  font-size: 60px;
+}
+.content {
+  position: fixed;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: #f1f1f1;
+  width: 100%;
+  padding: 20px;
+}
+h1{
+  color: white;
+  text-align: center;
+  font-family:'Times New Roman', Times, serif
+}
+ol{
+  color: white;
+}
+ul{
+  color: white;
+}
+li{
+  color: white;
+}
+.center{
+text-align: center;
+}
+.italics {
+  font-style: italic;
+}

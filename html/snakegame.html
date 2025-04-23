@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Snake Game</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000;
+        }
+        canvas {
+            background-color: #111;
+            border: 2px solid #0f0;
+        }
+        h1 {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #0f0;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Snake Game</h1>
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+        const scale = 20;
+        const rows = canvas.height / scale;
+        const columns = canvas.width / scale;
+
+        let snake = [{ x: 160, y: 200 }];
+        let direction = "RIGHT";
+        let food = randomPosition();
+
+        document.addEventListener("keydown", e => {
+            switch (e.key) {
+                case "ArrowUp": if (direction !== "DOWN") direction = "UP"; break;
+                case "ArrowDown": if (direction !== "UP") direction = "DOWN"; break;
+                case "ArrowLeft": if (direction !== "RIGHT") direction = "LEFT"; break;
+                case "ArrowRight": if (direction !== "LEFT") direction = "RIGHT"; break;
+            }
+        });
+
+        function randomPosition() {
+            return {
+                x: Math.floor(Math.random() * columns) * scale,
+                y: Math.floor(Math.random() * rows) * scale
+            };
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = "lime";
+            for (let part of snake) {
+                ctx.fillRect(part.x, part.y, scale, scale);
+            }
+
+            ctx.fillStyle = "red";
+            ctx.fillRect(food.x, food.y, scale, scale);
+        }
+
+        function update() {
+            const head = { ...snake[0] };
+
+            switch (direction) {
+                case "UP": head.y -= scale; break;
+                case "DOWN": head.y += scale; break;
+                case "LEFT": head.x -= scale; break;
+                case "RIGHT": head.x += scale; break;
+            }
+
+            // Collision with wall
+            if (head.x < 0 || head.y < 0 || head.x >= canvas.width || head.y >= canvas.height) {
+                return gameOver();
+            }
+
+            // Collision with self
+            for (let part of snake) {
+                if (part.x === head.x && part.y === head.y) {
+                    return gameOver();
+                }
+            }
+
+            snake.unshift(head);
+
+            if (head.x === food.x && head.y === food.y) {
+                food = randomPosition();
+            } else {
+                snake.pop();
+            }
+        }
+
+        function gameOver() {
+            alert("Game Over!");
+            snake = [{ x: 160, y: 200 }];
+            direction = "RIGHT";
+            food = randomPosition();
+        }
+
+        function gameLoop() {
+            update();
+            draw();
+        }
+
+        setInterval(gameLoop, 150);
+    </script>
+</body>
+</html>
